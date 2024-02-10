@@ -48,7 +48,7 @@ namespace Employees_Management.Controllers
         // GET: SystemCodeDetials/Create
         public IActionResult Create()
         {
-            ViewData["SystemCodeId"] = new SelectList(_context.SystemCodes, "Id", "Id");
+            ViewData["SystemCodeId"] = new SelectList(_context.SystemCodes, "Id", "Description");
             return View();
         }
 
@@ -57,15 +57,14 @@ namespace Employees_Management.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SystemCodeId,Code,Description,OrderNo,CreateId,CreateOn,ModifiedById,ModifiedOn")] SystemCodeDetial systemCodeDetial)
+        public async Task<IActionResult> Create(SystemCodeDetial systemCodeDetial)
         {
-            if (ModelState.IsValid)
-            {
+            
                 _context.Add(systemCodeDetial);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["SystemCodeId"] = new SelectList(_context.SystemCodes, "Id", "Id", systemCodeDetial.SystemCodeId);
+            
+            ViewData["SystemCodeId"] = new SelectList(_context.SystemCodes, "Id", "Description", systemCodeDetial.SystemCodeId);
             return View(systemCodeDetial);
         }
 
